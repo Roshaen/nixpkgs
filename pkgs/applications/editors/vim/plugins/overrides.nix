@@ -63,6 +63,8 @@
 , # command-t dependencies
   getconf
 , ruby
+, # cornelis dependencies
+  cornelis
 , # cpsm dependencies
   boost
 , cmake
@@ -425,6 +427,11 @@
     dependencies = with self; [ plenary-nvim ];
   };
 
+  compiler-nvim = super.compiler-nvim.overrideAttrs {
+    dependencies = [ self.overseer-nvim ];
+    nvimRequireCheck = "compiler";
+  };
+
   completion-buffers = super.completion-buffers.overrideAttrs {
     dependencies = with self; [ completion-nvim ];
   };
@@ -440,6 +447,10 @@
 
   completion-treesitter = super.completion-treesitter.overrideAttrs {
     dependencies = with self; [ completion-nvim nvim-treesitter ];
+  };
+
+  CopilotChat-nvim = super.CopilotChat-nvim.overrideAttrs {
+    dependencies = with self; [ copilot-lua plenary-nvim ];
   };
 
   copilot-vim = super.copilot-vim.overrideAttrs {
@@ -460,6 +471,17 @@
 
     # We need some patches so it stops complaining about not being in a venv
     patches = [ ./patches/coq_nvim/emulate-venv.patch ];
+  };
+
+  cornelis = super.cornelis.overrideAttrs {
+    dependencies = with self; [ vim-textobj-user ];
+    opt = with self; [ vim-which-key ];
+    # Unconditionally use the cornelis binary provided by the top-level package:
+    patches = [ ./patches/cornelis/0001-Unconditionally-use-global-binary.patch ];
+    postInstall = ''
+      substituteInPlace $out/ftplugin/agda.vim \
+        --subst-var-by CORNELIS "${lib.getBin cornelis}/bin/cornelis"
+    '';
   };
 
   cpsm = super.cpsm.overrideAttrs {
@@ -839,6 +861,10 @@
     dependencies = with self; [ plenary-nvim ];
   };
 
+  luasnip = super.luasnip.overrideAttrs {
+    dependencies = with self; [ luaPackages.jsregexp ];
+  };
+
   magma-nvim-goose = buildVimPlugin {
     pname = "magma-nvim-goose";
     version = "2023-03-13";
@@ -1063,7 +1089,7 @@
         inherit (old) version src;
         sourceRoot = "${old.src.name}/spectre_oxi";
 
-        cargoHash = "sha256-seBq1zJNzNVfCQckIHq7rHI/Y8MyxP88cee3NO7NYgo=";
+        cargoHash = "sha256-7V4RyWIo9gL3ir4Pay8CMIVn6cXjJi9sgKVOENG4muQ=";
 
 
         preCheck = ''
@@ -1199,7 +1225,7 @@
         pname = "sg-nvim-rust";
         inherit (old) version src;
 
-        cargoHash = "sha256-iGNLk3ckm90i5m05V/va+hO9RMiOUKL19dkszoUCwlU=";
+        cargoHash = "sha256-bK4gyK6kqeRyoH7hnRHZURCjcxemIdqs71Qgb/Cl1pw=";
 
         nativeBuildInputs = [ pkg-config ];
 

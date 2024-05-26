@@ -29,6 +29,7 @@
 , libiconv
 , libmpack
 , libmysqlclient
+, libpsl
 , libuuid
 , libuv
 , libxcrypt
@@ -93,7 +94,7 @@ in
     ];
     postConfigure = ''
       substituteInPlace ''${rockspecFilename} \
-        --replace "'lua_cliargs = 3.0'," "'lua_cliargs >= 3.0',"
+        --replace-fail "'lua_cliargs = 3.0'," "'lua_cliargs >= 3.0-1',"
     '';
     postInstall = ''
       installShellCompletion --cmd busted \
@@ -145,6 +146,16 @@ in
     ];
     postInstall = ''
       installManPage fennel.1
+    '';
+  });
+
+  # Until https://github.com/swarn/fzy-lua/pull/8 is merged,
+  # we have to invoke busted manually
+  fzy = prev.fzy.overrideAttrs(oa: {
+    doCheck = true;
+    nativeCheckInputs = [ final.busted ];
+    checkPhase = ''
+      busted
     '';
   });
 
@@ -607,6 +618,15 @@ in
     dontPatchShebangs = true;
   });
 
+  psl = prev.psl.overrideAttrs (drv: {
+    buildInputs = drv.buildInputs or [ ] ++ [ libpsl ];
+
+    luarocksConfig.variables = drv.luarocksConfig.variables // {
+      PSL_INCDIR = lib.getDev libpsl + "/include";
+      PSL_DIR = lib.getLib libpsl;
+    };
+  });
+
   rapidjson = prev.rapidjson.overrideAttrs (oa: {
     preBuild = ''
       sed -i '/set(CMAKE_CXX_FLAGS/d' CMakeLists.txt
@@ -639,7 +659,8 @@ in
       tar xf *.tar.gz
     '';
 
-    propagatedBuildInputs = [ lua luaposix
+    propagatedBuildInputs = [
+      luaposix
       readline.out
     ];
 
@@ -699,8 +720,10 @@ in
 
     postPatch = ''
       substituteInPlace CMakeLists.txt \
-        --replace "TOML_PLUS_PLUS_SRC" "${tomlplusplus.src}" \
-        --replace "MAGIC_ENUM_SRC" "${magic-enum.src}"
+        --replace-fail "TOML_PLUS_PLUS_SRC" "${tomlplusplus.src}/include/toml++" \
+        --replace-fail "MAGIC_ENUM_SRC" "${magic-enum.src}/include/magic_enum"
+
+      cat CMakeLists.txt
     '';
   });
 
@@ -711,11 +734,10 @@ in
       hash = "sha256-2P+mokkjdj2PccQG/kAGnIoUPVnK2FqNfYpHPhsp8kw=";
     };
 
-    nativeBuildInputs = let
-      # HACK: luarocks-nix doesn't pick up rockspec build dependencies,
-      # so we have to pass the correct package in here.
-      lua = lib.head oa.propagatedBuildInputs;
-    in oa.nativeBuildInputs ++ [
+    NIX_LDFLAGS = lib.optionalString stdenv.isDarwin
+      (if lua.pkgs.isLuaJIT then "-lluajit-${lua.luaversion}" else "-llua");
+
+    nativeBuildInputs = oa.nativeBuildInputs ++ [
       cargo
       rustPlatform.cargoSetupHook
       lua.pkgs.luarocks-build-rust-mlua
@@ -743,9 +765,11 @@ in
 
   vusted = prev.vusted.overrideAttrs (_: {
     postConfigure = ''
+      cat ''${rockspecFilename}
       substituteInPlace ''${rockspecFilename} \
-        --replace '"luasystem = 0.2.1",' '"luasystem",'
+        --replace-fail '"luasystem = 0.2.1",' "'luasystem >= 0.2',"
     '';
+
     # make sure vusted_entry.vim doesn't get wrapped
     postInstall = ''
       chmod -x $out/bin/vusted_entry.vim

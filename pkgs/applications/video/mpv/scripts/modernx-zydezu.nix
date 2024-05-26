@@ -7,14 +7,14 @@
 }:
 buildLua (finalAttrs: {
   pname = "modernx-zydezu";
-  version = "0.2.9";
+  version = "0.3.5";
 
   scriptPath = "modernx.lua";
   src = fetchFromGitHub {
     owner = "zydezu";
     repo = "ModernX";
     rev = finalAttrs.version;
-    hash = "sha256-Tq/v8EbojvOSSwbu8kdbLVxZWZNi1UH6zAPTcsUcgog";
+    hash = "sha256-pU3ROjdSa80FV/b/HlsKvlM6wZxEV5c4Os8g2Lgs65U=";
   };
 
   postInstall = ''
@@ -35,6 +35,9 @@ buildLua (finalAttrs: {
     description = "A modern OSC UI replacement for MPV that retains the functionality of the default OSC";
     homepage = "https://github.com/zydezu/ModernX";
     license = licenses.lgpl21Plus;
-    maintainers = with maintainers; [ Guanran928 ];
+    maintainers = with maintainers; [
+      luftmensch-luftmensch
+      Guanran928
+    ];
   };
 })
