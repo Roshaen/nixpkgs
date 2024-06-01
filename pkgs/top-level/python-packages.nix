@@ -463,6 +463,8 @@ self: super: with self; {
 
   aiozeroconf = callPackage ../development/python-modules/aiozeroconf { };
 
+  aiozoneinfo = callPackage ../development/python-modules/aiozoneinfo { };
+
   airium = callPackage ../development/python-modules/airium { };
 
   airly = callPackage ../development/python-modules/airly { };
@@ -1522,6 +1524,8 @@ self: super: with self; {
   bids-validator = callPackage ../development/python-modules/bids-validator { };
 
   biliass = callPackage ../development/python-modules/biliass { };
+
+  bilibili-api-python = callPackage ../development/python-modules/bilibili-api-python { };
 
   billiard = callPackage ../development/python-modules/billiard { };
 
@@ -4711,6 +4715,8 @@ self: super: with self; {
 
   geocoder = callPackage ../development/python-modules/geocoder { };
 
+  geodatasets = callPackage ../development/python-modules/geodatasets { };
+
   geographiclib = callPackage ../development/python-modules/geographiclib { };
 
   geoip2 = callPackage ../development/python-modules/geoip2 { };
@@ -4875,6 +4881,8 @@ self: super: with self; {
   goocalendar = callPackage ../development/python-modules/goocalendar { };
 
   goodwe = callPackage ../development/python-modules/goodwe { };
+
+  gophish = callPackage ../development/python-modules/gophish { };
 
   google = callPackage ../development/python-modules/google { };
 
@@ -6499,6 +6507,8 @@ self: super: with self; {
 
   latex2mathml = callPackage ../development/python-modules/latex2mathml { };
 
+  latex2pydata = callPackage ../development/python-modules/latex2pydata { };
+
   latexcodec = callPackage ../development/python-modules/latexcodec { };
 
   latexify-py = callPackage ../development/python-modules/latexify-py { };
@@ -6689,6 +6699,8 @@ self: super: with self; {
   libpurecool = callPackage ../development/python-modules/libpurecool { };
 
   libpyfoscam = callPackage ../development/python-modules/libpyfoscam { };
+
+  libpysal = callPackage ../development/python-modules/libpysal { };
 
   libpyvivotek = callPackage ../development/python-modules/libpyvivotek { };
 
@@ -6941,6 +6953,8 @@ self: super: with self; {
 
   llm = callPackage ../development/python-modules/llm { };
 
+  llmx = callPackage ../development/python-modules/llmx { };
+
   llvmlite = callPackage ../development/python-modules/llvmlite {
     # llvmlite always requires a specific version of llvm.
     llvm = pkgs.llvm_14;
@@ -7169,6 +7183,8 @@ self: super: with self; {
   mapbox = callPackage ../development/python-modules/mapbox { };
 
   mapbox-earcut = callPackage ../development/python-modules/mapbox-earcut { };
+
+  mapclassify = callPackage ../development/python-modules/mapclassify { };
 
   mariadb = callPackage ../development/python-modules/mariadb { };
 
@@ -8963,6 +8979,8 @@ self: super: with self; {
 
   nxt-python = callPackage ../development/python-modules/nxt-python { };
 
+  plugp100 = callPackage ../development/python-modules/plugp100 {};
+
   python-ndn = callPackage ../development/python-modules/python-ndn { };
 
   python-nvd3 = callPackage ../development/python-modules/python-nvd3 { };
@@ -9995,6 +10013,8 @@ self: super: with self; {
   pynws = callPackage ../development/python-modules/pynws { };
 
   pynx584 = callPackage ../development/python-modules/pynx584 { };
+
+  pyogrio = callPackage ../development/python-modules/pyogrio { };
 
   pyorthanc = callPackage ../development/python-modules/pyorthanc { };
 
@@ -11049,8 +11069,6 @@ self: super: with self; {
   pygdbmi = callPackage ../development/python-modules/pygdbmi { };
 
   pygeoip = callPackage ../development/python-modules/pygeoip { };
-
-  pygeos = callPackage ../development/python-modules/pygeos { };
 
   pygetwindow = callPackage ../development/python-modules/pygetwindow { };
 
@@ -12661,6 +12679,8 @@ self: super: with self; {
 
   pytube = callPackage ../development/python-modules/pytube { };
 
+  pytubefix = callPackage ../development/python-modules/pytubefix { };
+
   pytun = callPackage ../development/python-modules/pytun { };
 
   pyturbojpeg = callPackage ../development/python-modules/pyturbojpeg { };
@@ -12888,6 +12908,8 @@ self: super: with self; {
   qpsolvers = callPackage ../development/python-modules/qpsolvers { };
 
   qrcode = callPackage ../development/python-modules/qrcode { };
+
+  qrcode-terminal = callPackage ../development/python-modules/qrcode-terminal { };
 
   qreactor = callPackage ../development/python-modules/qreactor { };
 
@@ -14292,6 +14314,8 @@ self: super: with self; {
   sphinx-tabs = callPackage ../development/python-modules/sphinx-tabs { };
 
   sphinx-togglebutton = callPackage ../development/python-modules/sphinx-togglebutton { };
+
+  sphinxawesome-theme = callPackage ../development/python-modules/sphinxawesome-theme { };
 
   sphinxcontrib-actdiag = callPackage ../development/python-modules/sphinxcontrib-actdiag { };
 
@@ -16710,6 +16734,8 @@ self: super: with self; {
 
   vncdo = callPackage ../development/python-modules/vncdo { };
 
+  vnoise = callPackage ../development/python-modules/vnoise { };
+
   vobject = callPackage ../development/python-modules/vobject { };
 
   volatile = callPackage ../development/python-modules/volatile { };
@@ -17364,8 +17390,6 @@ self: super: with self; {
   zipfile2 = callPackage ../development/python-modules/zipfile2 { };
 
   zipp = callPackage ../development/python-modules/zipp { };
-
-  zipstream = callPackage ../development/python-modules/zipstream { };
 
   zipstream-ng = callPackage ../development/python-modules/zipstream-ng { };
 
